@@ -50,3 +50,15 @@ fun readNextFloat(prompt: String?): Float {
         }
     } while (true)
 }
+
+fun readNextBoolean(prompt: String?): Boolean {
+    do {
+        print(prompt)
+        val input = readln().lowercase()
+        when (input) {
+            "true", "t", "yes", "y", "1" -> return true
+            "false", "f", "no", "n", "0" -> return false
+            else -> System.err.println("Please enter true or false, yes or no, 1 or 0")
+        }
+    } while (true)
+}
