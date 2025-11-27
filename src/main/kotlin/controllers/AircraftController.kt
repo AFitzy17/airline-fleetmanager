@@ -1,9 +1,26 @@
 package controllers
 
 import models.Aircraft
+import persistence.Serializer
+import kotlin.jvm.Throws
 
-class AircraftController {
-    private val airframes = mutableListOf<Aircraft>()
+class AircraftController(serializerType: Serializer) {
+    private var airframes = mutableListOf<Aircraft>()
+    private var serializer: Serializer = serializerType
+
+    @Throws(Exception::class)
+    fun load() {
+        airframes = serializer.read() as MutableList<Aircraft>
+
+        lastId =
+            if(airframes.isEmpty()) 0 else (airframes.maxOf { it.aircraftId } + 1)
+    }
+
+    @Throws
+    fun store() {
+        serializer.write(airframes)
+    }
+
     private var lastId = 0
 
     private fun getId() = lastId++

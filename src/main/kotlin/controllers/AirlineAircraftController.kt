@@ -1,9 +1,22 @@
 package controllers
 
 import models.AirlineAircraft
+import persistence.Serializer
 
-class AirlineAircraftController {
-    private val airlineAicraft = mutableListOf<AirlineAircraft>()
+
+class AirlineAircraftController(serializerType: Serializer) {
+    private var airlineAircraft = mutableListOf<AirlineAircraft>()
+    private var serializer: Serializer = serializerType
+
+    @Throws
+    fun load() {
+        airlineAircraft = serializer.read() as MutableList<AirlineAircraft>
+    }
+
+    @Throws
+    fun store() {
+        serializer.write(airlineAircraft)
+    }
 
     fun addAircraftToAirline(
         airlineId: Int,
@@ -14,7 +27,7 @@ class AirlineAircraftController {
         revenuePerYear: Double,
         isRetired: Boolean,
     ) {
-        airlineAicraft.add(AirlineAircraft(airlineId, aircraftId, registration, yearBought, hoursFlown, revenuePerYear, isRetired))
+        airlineAircraft.add(AirlineAircraft(airlineId, aircraftId, registration, yearBought, hoursFlown, revenuePerYear, isRetired))
     }
 
     fun updateAircraftInAirline(
@@ -26,7 +39,7 @@ class AirlineAircraftController {
         revenuePerYear: Double,
         isRetired: Boolean
     ): Boolean {
-        val aircraft = airlineAicraft.find { it.airlineId == airlineId && it.aircraftId == aircraftId }
+        val aircraft = airlineAircraft.find { it.airlineId == airlineId && it.aircraftId == aircraftId }
         return if (aircraft != null) {
             aircraft.registration = registration
             aircraft.yearBought = yearBought
@@ -40,9 +53,9 @@ class AirlineAircraftController {
     }
 
     fun deleteAircraftInAirline(airlineId: Int, aircraftId: Int): AirlineAircraft? {
-        val index = airlineAicraft.indexOfFirst { it.airlineId == airlineId && it.aircraftId == aircraftId }
+        val index = airlineAircraft.indexOfFirst { it.airlineId == airlineId && it.aircraftId == aircraftId }
         return if (index != -1) {
-            airlineAicraft.removeAt(index)
+            airlineAircraft.removeAt(index)
             // returns the removed association
         } else {
             null
@@ -50,8 +63,8 @@ class AirlineAircraftController {
     }
 
     fun numberOfAircraftInAirline(airlineId: Int): Int {
-        return airlineAicraft.count { it.airlineId == airlineId }
+        return airlineAircraft.count { it.airlineId == airlineId }
     }
 
-    fun listAircraftInAirline(airlineId: Int) = airlineAicraft.filter { it.airlineId == airlineId }
+    fun listAircraftInAirline(airlineId: Int) = airlineAircraft.filter { it.airlineId == airlineId }
 }

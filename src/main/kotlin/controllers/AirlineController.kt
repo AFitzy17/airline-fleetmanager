@@ -1,10 +1,25 @@
 package controllers
 
 import models.Airline
+import persistence.Serializer
 
-class AirlineController {
-    private val airlines = mutableListOf<Airline>()
+class AirlineController(serializerType: Serializer) {
+    private var airlines = mutableListOf<Airline>()
+    private var serializer: Serializer = serializerType
     private var lastId = 0
+
+    @Throws
+    fun load() {
+        airlines = serializer.read() as MutableList<Airline>
+
+        lastId =
+            if(airlines.isEmpty()) 0 else (airlines.maxOf { it.airlineId } + 1)
+    }
+
+    @Throws
+    fun store() {
+        serializer.write(airlines)
+    }
 
     private fun getId() = lastId++
 
