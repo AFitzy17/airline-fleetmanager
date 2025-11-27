@@ -3,16 +3,23 @@ import controllers.AirlineAircraftController
 import controllers.AirlineController
 import models.Aircraft
 import models.Airline
+import persistence.XMLSerializer
 import utils.readNextBoolean
 import utils.readNextDouble
 import utils.readNextInt
 import utils.readNextLine
+import java.io.File
+import java.lang.System.exit
 
-val airlineController = AirlineController()
-val aircraftController = AircraftController()
-val airlineAircraftController = AirlineAircraftController()
+val airlineController = AirlineController(XMLSerializer(File("airlines.xml")))
+val aircraftController = AircraftController(XMLSerializer(File("aircraft.xml")))
+val airlineAircraftController = AirlineAircraftController(XMLSerializer(File("fleet.xml")))
 
 fun main() {
+    mainMenu()
+}
+
+fun mainMenu() {
     var choice: Int
 
     do {
@@ -36,6 +43,12 @@ fun main() {
             > |     6. View All Airline Aircraft      |
             > |                                       |
             > -----------------------------------------
+            > | SAVE/LOAD Functions:                  |
+            > |                                       |
+            > |    20. Save to XML files              |
+            > |    21. Load from XML files            |
+            > |                                       |
+            > -----------------------------------------
             > |     0. Exit                           |
             > -----------------------------------------
             > ==> """.trimMargin(">"),
@@ -56,16 +69,19 @@ fun main() {
                 listAllAircraft()
             }
             5 -> {
-
+                listAllAirlines()
             }
             6 -> {
-
+                listAllAircraftInFleet()
             }
-            7 -> {
-                updateAircraft()
+            20 -> {
+                save()
+            }
+            21 -> {
+                load()
             }
             0 -> {
-                println("Exiting app...")
+                exitApp()
             }
             else -> println("Invalid choice: $choice. Please try again.")
         }
@@ -385,6 +401,30 @@ fun deleteAircraftInFleet() {
     }
 }
 
+fun save() {
+    try {
+        airlineController.store()
+        aircraftController.store()
+        airlineAircraftController.store()
+    } catch (e: Exception) {
+        System.err.println("Erorr writing to file: $e")
+    }
+}
+
+fun load() {
+    try {
+        airlineController.load()
+        aircraftController.load()
+        airlineAircraftController.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
+    }
+}
+
+fun exitApp() {
+    println("Exiting app...")
+    exit(0)
+}
 /*fun findByIataCode() {
     val iataCode = readNextLine("Enter the Airline iata code you wish to search for: ")
     println("${airlineController.findByIATACode(iataCode)}")
