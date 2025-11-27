@@ -1,8 +1,8 @@
 import controllers.AircraftController
 import controllers.AirlineAircraftController
-import models.Airline
 import controllers.AirlineController
 import models.Aircraft
+import models.Airline
 import utils.readNextBoolean
 import utils.readNextDouble
 import utils.readNextInt
@@ -13,19 +13,20 @@ val aircraftController = AircraftController()
 val airlineAircraftController = AirlineAircraftController()
 
 fun main() {
-
     var choice: Int
 
     do {
-        choice = readNextInt("""
+        choice =
+            readNextInt(
+                """
             > -----------------------------------------
-            > |  FLEET MASTER V0.2                    |
+            > |  FLEET MASTER V1.0                    |
             > -----------------------------------------
             > | CRUD Functions:                       |
             > |                                       |
-            > |     1. Add Aircraft                   |
-            > |     2. Add Airline                    |
-            > |     3. Add Aircraft to Airline        |
+            > |     1. Aircraft Management            |
+            > |     2. Airline Management             |
+            > |     3. Fleet Management               |
             > |                                       |
             > -----------------------------------------
             > | List Functions:                       |
@@ -37,7 +38,8 @@ fun main() {
             > -----------------------------------------
             > |     0. Exit                           |
             > -----------------------------------------
-            > ==> """.trimMargin(">"))
+            > ==> """.trimMargin(">"),
+            )
 
         when (choice) {
             1 -> {
@@ -47,15 +49,8 @@ fun main() {
                 airlineMenu()
             }
             3 -> {
-                //Add an aircraft to an Airline
-                val airlineId = readNextInt("Enter airline id: ")
-                val aircraftId = readNextInt("Enter aircraft id: ")
-                val registration = readNextLine("Enter the registration (e.g. EI-DEE): ")
-                val yearBought = readNextInt("Enter the year the aircraft was bought: ")
-                val hoursFlown = readNextInt("Enter the hours this aircraft has flown: ")
-                val revenuePerYear = readNextDouble("Enter the average revenue earned per year: ")
-                val isRetired = readNextBoolean("Enter whether this aircraft has been retired or not: ")
-                airlineAircraftController.addAircraftToAirline(airlineId, aircraftId, registration, yearBought, hoursFlown, revenuePerYear, isRetired)
+                // Add an aircraft to an Airline
+                fleetMenu()
             }
             4 -> {
                 listAllAircraft()
@@ -64,8 +59,7 @@ fun main() {
 
             }
             6 -> {
-                val airlineId = readNextInt("Enter airline id: ")
-                println("Airline Fleet: \n${airlineAircraftController.listAircraftInAirline(airlineId)}")
+
             }
             7 -> {
                 updateAircraft()
@@ -73,17 +67,18 @@ fun main() {
             0 -> {
                 println("Exiting app...")
             }
-            else -> println("Invalid choice: ${choice}. Please try again.")
+            else -> println("Invalid choice: $choice. Please try again.")
         }
     } while (choice != 0)
 }
 
 fun aircraftMenu() {
-
     var choice: Int
 
     do {
-        choice = readNextInt("""
+        choice =
+            readNextInt(
+                """
             > -----------------------------------------
             > |  AIRCRAFT MANAGEMENT MENU             |
             > -----------------------------------------
@@ -95,7 +90,8 @@ fun aircraftMenu() {
             > -----------------------------------------
             > |     0. Back to Main Menu              |
             > -----------------------------------------
-            > ==> """.trimMargin(">"))
+            > ==> """.trimMargin(">"),
+            )
 
         when (choice) {
             1 -> {
@@ -113,17 +109,18 @@ fun aircraftMenu() {
             0 -> {
                 println("Reloading...")
             }
-            else -> println("Invalid choice: ${choice}. Please try again.")
+            else -> println("Invalid choice: $choice. Please try again.")
         }
     } while (choice != 0)
 }
 
 fun airlineMenu() {
-
     var choice: Int
 
     do {
-        choice = readNextInt("""
+        choice =
+            readNextInt(
+                """
             > -----------------------------------------
             > |  AIRLINE MANAGEMENT MENU              |
             > -----------------------------------------
@@ -135,7 +132,8 @@ fun airlineMenu() {
             > -----------------------------------------
             > |     0. Back to Main Menu              |
             > -----------------------------------------
-            > ==> """.trimMargin(">"))
+            > ==> """.trimMargin(">"),
+            )
 
         when (choice) {
             1 -> {
@@ -153,13 +151,56 @@ fun airlineMenu() {
             0 -> {
                 println("Reloading...")
             }
-            else -> println("Invalid choice: ${choice}. Please try again.")
+            else -> println("Invalid choice: $choice. Please try again.")
+        }
+    } while (choice != 0)
+}
+
+fun fleetMenu() {
+    var choice: Int
+
+    do {
+        choice =
+            readNextInt(
+                """
+            > -----------------------------------------
+            > |  FLEET MANAGEMENT MENU                |
+            > -----------------------------------------
+            > |     1. Add Aircraft to Fleet          |
+            > |     2. Update Aircraft in Fleet       |
+            > |     3. Delete Aircraft in Fleet       |
+            > -----------------------------------------
+            > |     4. List all Aircraft in           |  
+            >          an Airline Fleet               |
+            > -----------------------------------------
+            > |     0. Back to Main Menu              |
+            > -----------------------------------------
+            > ==> """.trimMargin(">"),
+            )
+
+        when (choice) {
+            1 -> {
+                addAircraftToFleet()
+            }
+            2 -> {
+                updateAircraftInFleet()
+            }
+            3 -> {
+                deleteAircraftInFleet()
+            }
+            4 -> {
+                listAllAircraftInFleet()
+            }
+            0 -> {
+                println("Reloading...")
+            }
+            else -> println("Invalid choice: $choice. Please try again.")
         }
     } while (choice != 0)
 }
 
 fun addAircraft() {
-    //Add aircraft
+    // Add aircraft
     val manufacturer = readNextLine("Enter the Aircraft Manufacturer: ")
     val model = readNextLine("Enter the aircraft model: ")
     val capacity = readNextInt("Enter the seat capacity: ")
@@ -173,13 +214,32 @@ fun addAircraft() {
 
 fun addAirline() {
     val iataCode = readNextLine("Enter the 2-letter Airline IATA Code: ")
-    val airlineName= readNextLine("Enter the name of the Airline: ")
+    val airlineName = readNextLine("Enter the name of the Airline: ")
     val country = readNextLine("Enter the country of origin for the Airline: ")
     val yearFounded = readNextInt("Enter the year the Airline was founded: ")
     val isActive = readNextBoolean("Enter whether the Airline is still in operation: ")
 
     val airline = Airline(0, iataCode, airlineName, country, yearFounded, isActive)
     airlineController.addAirline(airline)
+}
+
+fun addAircraftToFleet() {
+    val airlineId = readNextInt("Enter airline id: ")
+    val aircraftId = readNextInt("Enter aircraft id: ")
+    val registration = readNextLine("Enter the registration (e.g. EI-DEE): ")
+    val yearBought = readNextInt("Enter the year the aircraft was bought: ")
+    val hoursFlown = readNextInt("Enter the hours this aircraft has flown: ")
+    val revenuePerYear = readNextDouble("Enter the average revenue earned per year: ")
+    val isRetired = readNextBoolean("Enter whether this aircraft has been retired or not: ")
+    airlineAircraftController.addAircraftToAirline(
+        airlineId,
+        aircraftId,
+        registration,
+        yearBought,
+        hoursFlown,
+        revenuePerYear,
+        isRetired,
+    )
 }
 
 fun listAllAircraft() {
@@ -198,10 +258,23 @@ fun listAllAirlines() {
     }
 }
 
+fun listAircraftInFleet(airlineId: Int) {
+    println("Airline Fleet: \n${airlineAircraftController.listAircraftInAirline(airlineId)}")
+}
+
+fun listAllAircraftInFleet() {
+    val airlineId = readNextInt("Please enter the airline ID of the Airline: ")
+    if (airlineAircraftController.numberOfAircraftInAirline(airlineId)> 0) {
+        listAircraftInFleet(airlineId)
+    } else {
+        println("There are no aircraft in the fleet.")
+    }
+}
+
 fun updateAircraft() {
     listAllAircraft()
     if (aircraftController.numberOfAircraft() > 0) {
-        //ask user for index to update
+        // ask user for index to update
         val indexToUpdate = readNextInt("Enter the index number of the aircraft you wish to update: ")
         if (aircraftController.isValidIndex(indexToUpdate)) {
             val manufacturer = readNextLine("Please enter the manufacturer name: ")
@@ -211,7 +284,11 @@ fun updateAircraft() {
             val yearIntroduced = readNextInt("Enter the year it started production: ")
             val inProduction = readNextBoolean("Enter whether the aircraft is still in production: ")
 
-            if (aircraftController.updateAircraft(indexToUpdate, Aircraft(indexToUpdate, manufacturer, model, capacity, rangeNm, yearIntroduced, inProduction))) {
+            if (aircraftController.updateAircraft(
+                    indexToUpdate,
+                    Aircraft(indexToUpdate, manufacturer, model, capacity, rangeNm, yearIntroduced, inProduction),
+                )
+            ) {
                 println("Update successful!")
             } else {
                 println("Update Failed.")
@@ -233,7 +310,11 @@ fun updateAirline() {
             val yearFounded = readNextInt("Please enter the year the Airline was founded: ")
             val isActive = readNextBoolean("Please enter whether the Airline is still in operation: ")
 
-            if (airlineController.updateAirline(indexToUpdate, Airline(indexToUpdate, iataCode, airlineName, country, yearFounded, isActive))) {
+            if (airlineController.updateAirline(
+                    indexToUpdate,
+                    Airline(indexToUpdate, iataCode, airlineName, country, yearFounded, isActive),
+                )
+            ) {
                 println("Update successful!")
             } else {
                 println("Update Failed.")
@@ -241,13 +322,31 @@ fun updateAirline() {
         } else {
             println("There are no airline at this index number.")
         }
+    } else {
+        println("There are no aircraft in this fleet.")
+    }
+}
+
+fun updateAircraftInFleet() {
+    val airlineToUpdate = readNextInt("Please enter the airline ID of which you wish to update the aircraft: ")
+    if (airlineAircraftController.numberOfAircraftInAirline(airlineToUpdate) > 0) {
+        listAircraftInFleet(airlineToUpdate)
+        val aircraftToUpdate = readNextInt("Please enter the aircraft ID of the aircraft you want to update: ")
+        val registration = readNextLine("Enter the registration (e.g. EI-DEE): ")
+        val yearBought = readNextInt("Enter the year the aircraft was bought: ")
+        val hoursFlown = readNextInt("Enter the hours this aircraft has flown: ")
+        val revenuePerYear = readNextDouble("Enter the average revenue earned per year: ")
+        val isRetired = readNextBoolean("Enter whether this aircraft has been retired or not: ")
+        airlineAircraftController.updateAircraftInAirline(airlineToUpdate, aircraftToUpdate, registration, yearBought, hoursFlown, revenuePerYear, isRetired)
+    } else {
+        println("There are no aircraft in this fleet.")
     }
 }
 
 fun deleteAircraft() {
     listAllAircraft()
     if (aircraftController.numberOfAircraft() > 0) {
-        //ask user for index to delete
+        // ask user for index to delete
         val indexToDelete = readNextInt("Enter the index of the aircraft you'd like to delete: ")
         val aircraftToDelete = aircraftController.deleteAircraft(indexToDelete)
         if (aircraftToDelete != null) {
@@ -261,7 +360,7 @@ fun deleteAircraft() {
 fun deleteAirline() {
     listAllAirlines()
     if (airlineController.numberOfAirlines() > 0) {
-        //ask user for index to delete
+        // ask user for index to delete
         val indexToDelete = readNextInt("Enter the index of the Airline you'd like to delete: ")
         val airlineToDelete = airlineController.deleteAirline(indexToDelete)
         if (airlineToDelete != null) {
@@ -271,3 +370,22 @@ fun deleteAirline() {
         }
     }
 }
+
+fun deleteAircraftInFleet() {
+    val airlineId = readNextInt("Please enter the airline ID of which you wish to delete the aircraft: ")
+    if (airlineAircraftController.numberOfAircraftInAirline(airlineId) > 0) {
+        listAircraftInFleet(airlineId)
+        val aircraftId = readNextInt("Please enter the aircraft ID of the aircraft you want to delete: ")
+        val aircraftToDelete = airlineAircraftController.deleteAircraftInAirline(airlineId, aircraftId)
+        if (aircraftToDelete != null) {
+            println("Aircraft deleted successfully!")
+        } else {
+            println("Failed to delete aircraft from fleet.")
+        }
+    }
+}
+
+/*fun findByIataCode() {
+    val iataCode = readNextLine("Enter the Airline iata code you wish to search for: ")
+    println("${airlineController.findByIATACode(iataCode)}")
+}*/

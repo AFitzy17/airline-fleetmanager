@@ -7,5 +7,5 @@ data class Aircraft(
     var capacity: Int,
     var rangeNm: Int,
     var yearIntroduced: Int,
-    var inProduction: Boolean
+    var inProduction: Boolean,
 )

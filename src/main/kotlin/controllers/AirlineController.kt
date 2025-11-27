@@ -5,6 +5,7 @@ import models.Airline
 class AirlineController {
     private val airlines = mutableListOf<Airline>()
     private var lastId = 0
+
     private fun getId() = lastId++
 
     fun addAirline(airline: Airline) {
@@ -12,22 +13,30 @@ class AirlineController {
         airlines.add(airline)
     }
 
-    //utility method to determine if an index is valid in a list.
-    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
+    // utility method to determine if an index is valid in a list.
+    fun isValidListIndex(
+        index: Int,
+        list: List<Any>,
+    ): Boolean {
         return (index >= 0 && index < list.size)
     }
 
-    fun isValidIndex(index: Int): Boolean{
+    fun isValidIndex(index: Int): Boolean {
         return isValidListIndex(index, airlines)
     }
 
     fun findAirline(index: Int): Airline? {
         return if (isValidListIndex(index, airlines)) {
             airlines[index]
-        } else null
+        } else {
+            null
+        }
     }
 
-    fun updateAirline(indexToUpdate: Int, airline: Airline?): Boolean {
+    fun updateAirline(
+        indexToUpdate: Int,
+        airline: Airline?,
+    ): Boolean {
         val airlineFound = findAirline(indexToUpdate)
 
         if ((airlineFound != null) && (airline != null)) {
@@ -44,10 +53,16 @@ class AirlineController {
     fun deleteAirline(indexToDelete: Int): Airline? {
         return if (isValidListIndex(indexToDelete, airlines)) {
             airlines.removeAt(indexToDelete)
-        } else null
+        } else {
+            null
+        }
     }
 
     fun listAllAirlines() = airlines
 
     fun numberOfAirlines() = airlines.size
+
+    fun findByIATACode(iataCode: String) = airlines.filter { it.iataCode == iataCode }
 }
+
+
