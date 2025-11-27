@@ -7,5 +7,5 @@ data class AirlineAircraft(
     var yearBought: Int,
     var hoursFlown: Int,
     var revenuePerYear: Double,
-    var isRetired: Boolean
+    var isRetired: Boolean,
 )
