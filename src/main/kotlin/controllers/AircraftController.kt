@@ -57,6 +57,7 @@ class AircraftController(serializerType: Serializer) {
         val aircraftFound = findAircraft(indexToUpdate)
 
         if ((aircraftFound != null) && (aircraft != null)) {
+            aircraftFound.aircraftIataCode = aircraft.aircraftIataCode
             aircraftFound.manufacturer = aircraft.manufacturer
             aircraftFound.model = aircraft.model
             aircraftFound.capacity = aircraft.capacity
@@ -76,7 +77,55 @@ class AircraftController(serializerType: Serializer) {
         }
     }
 
-    fun listAllAircraft() = airframes
+    fun listAllAircraft(): String {
+        return if (airframes.isEmpty()) {
+            "There are currently no aircraft stored.\n"
+        } else {
+            var listOfAircraft = ""
+            for (i in airframes.indices) {
+                listOfAircraft += """                                  
+                    >  -------------------------------------
+                    >  Aircraft ID: ${airframes[i].aircraftId}
+                    >  Aircraft IATA Code: ${airframes[i].aircraftIataCode}
+                    >  Manufacturer: ${airframes[i].manufacturer}
+                    >  Model: ${airframes[i].model}
+                    >  Seat Capacity: ${airframes[i].capacity}
+                    >  Range: ${airframes[i].rangeNm} Nautical Miles
+                    >  Year Introduced: ${airframes[i].yearIntroduced}
+                    >  In Production? ${airframes[i].inProduction}
+                    >  -------------------------------------
+                    >  
+                """.trimMargin(">")
+            }
+            listOfAircraft
+        }
+    }
 
     fun numberOfAircraft() = airframes.size
+
+    fun findByIATACode(iataCode: String): String {
+        val aircraftFound = airframes.filter { it.aircraftIataCode == iataCode }
+
+        return if (aircraftFound.isEmpty()) {
+            "No aircraft found with IATA Code: ${iataCode}\n"
+        } else {
+            aircraftFound.joinToString (separator = "") { aircraft ->
+                """
+                    >
+                    > -------------------------------------
+                    > Aircraft ID: ${aircraft.aircraftId}
+                    > Aircraft IATA Code: ${aircraft.aircraftIataCode}
+                    > Manufacturer: ${aircraft.manufacturer}
+                    > Model: ${aircraft.model}
+                    > Seat Capacity: ${aircraft.capacity}
+                    > Range: ${aircraft.rangeNm}
+                    > Year Introduced: ${aircraft.yearIntroduced}
+                    > In Production? ${aircraft.inProduction}
+                    > -------------------------------------
+                    > 
+                """.trimMargin(">")
+            }
+        }
+    }
+
 }
