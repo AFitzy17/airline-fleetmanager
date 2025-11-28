@@ -2,6 +2,7 @@ package models
 
 data class Aircraft(
     var aircraftId: Int,
+    var aircraftIataCode: String,
     var manufacturer: String,
     var model: String,
     var capacity: Int,

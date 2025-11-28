@@ -56,7 +56,6 @@ class AirlineAircraftController(serializerType: Serializer) {
         val index = airlineAircraft.indexOfFirst { it.airlineId == airlineId && it.aircraftId == aircraftId }
         return if (index != -1) {
             airlineAircraft.removeAt(index)
-            // returns the removed association
         } else {
             null
         }
@@ -66,5 +65,35 @@ class AirlineAircraftController(serializerType: Serializer) {
         return airlineAircraft.count { it.airlineId == airlineId }
     }
 
-    fun listAircraftInAirline(airlineId: Int) = airlineAircraft.filter { it.airlineId == airlineId }
+    fun listAircraftInAirline(airlineId: Int): String {
+        val fleet = airlineAircraft.filter { it.airlineId == airlineId }
+
+        return if (fleet.isEmpty()) {
+            "No aircraft found in fleet for Airline ID: ${airlineId}\n"
+        } else {
+            fleet.joinToString(separator = "") { aircraft ->
+                """
+                    > ------------------------------------
+                    > Airline ID: ${aircraft.airlineId}
+                    > Aircraft ID: ${aircraft.aircraftId}
+                    > Registration: ${aircraft.registration}
+                    > Year Bought: ${aircraft.yearBought}
+                    > Hours Flown: ${aircraft.hoursFlown}
+                    > Revenue Per Year (in millions): ${aircraft.revenuePerYear}
+                    > Retired? ${aircraft.isRetired}
+                    > ------------------------------------
+                    > 
+                """.trimMargin(">")
+            }
+        }
+    }
+
+    fun findAircraftByRegistration(registration: String): AirlineAircraft? {
+        return airlineAircraft.find { it.registration == registration }
+    }
+
+
+    fun getFleetForAirline(airlineId: Int): List<AirlineAircraft> =
+        airlineAircraft.filter { it.airlineId == airlineId }
+
 }

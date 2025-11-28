@@ -73,11 +73,100 @@ class AirlineController(serializerType: Serializer) {
         }
     }
 
-    fun listAllAirlines() = airlines
+    fun listAllAirlines(): String {
+        return if (airlines.isEmpty()) {
+            "There are currently no airlines stored.\n"
+        } else {
+            var listOfAirlines = ""
+            for (i in airlines.indices) {
+                listOfAirlines += """
+                    > -------------------------------------
+                    > Airline ID: ${airlines[i].airlineId}
+                    > Airline IATA Code: ${airlines[i].iataCode}
+                    > Airline Name: ${airlines[i].airlineName}
+                    > Country of Origin: ${airlines[i].countryOfOrigin}
+                    > Year Founded: ${airlines[i].yearFounded}
+                    > Is Airline Active? ${airlines[i].isActive}
+                    > -------------------------------------
+                    > 
+                """.trimMargin(">")
+            }
+            listOfAirlines
+        }
+    }
 
     fun numberOfAirlines() = airlines.size
 
-    fun findByIATACode(iataCode: String) = airlines.filter { it.iataCode == iataCode }
+    fun findByIATACode(iataCode: String): String {
+        val airlineFound = airlines.filter { it.iataCode == iataCode }
+
+        return if (airlineFound.isEmpty()) {
+            "No airline found with IATA Code: ${iataCode}\n"
+        } else {
+            airlineFound.joinToString(separator = "") { airline ->
+                """
+                    > 
+                    > -------------------------------------
+                    > Airline ID: ${airline.airlineId}
+                    > Airline IATA Code: ${airline.iataCode}
+                    > Airline Name: ${airline.airlineName}
+                    > Country of Origin: ${airline.countryOfOrigin}
+                    > Year Founded: ${airline.yearFounded}
+                    > Is Airline Active? ${airline.isActive}
+                    > -------------------------------------
+                    > 
+                """.trimMargin(">")
+            }
+        }
+    }
+
+    fun listActiveAirlines(): String {
+        val airlineFound = airlines.filter { it.isActive }
+
+        return if (airlineFound.isEmpty()) {
+            "There are currently no active airlines.\n"
+        } else {
+            airlineFound.joinToString(separator = "") { airline ->
+                """
+                    > 
+                    > -------------------------------------
+                    > Airline ID: ${airline.airlineId}
+                    > Airline IATA Code: ${airline.iataCode}
+                    > Airline Name: ${airline.airlineName}
+                    > Country of Origin: ${airline.countryOfOrigin}
+                    > Year Founded: ${airline.yearFounded}
+                    > Is Airline Active? ${airline.isActive}
+                    > -------------------------------------
+                    >  
+                """.trimMargin(">")
+            }
+        }
+    }
+
+    fun listAirlinesFoundedBefore(year: Int): String {
+        val airlineFound = airlines.filter { it.yearFounded < year }
+
+        return if (airlineFound.isEmpty()) {
+            "No airlines founded before ${year}\n"
+        } else {
+            airlineFound.joinToString(separator = "") { airline ->
+                """
+                    > 
+                    > -------------------------------------
+                    > Airline ID: ${airline.airlineId}
+                    > Airline IATA Code: ${airline.iataCode}
+                    > Airline Name: ${airline.airlineName}
+                    > Country of Origin: ${airline.countryOfOrigin}
+                    > Year Founded: ${airline.yearFounded}
+                    > Is Airline Active? ${airline.isActive}
+                    > -------------------------------------
+                    > 
+                """.trimMargin(">")
+            }
+        }
+    }
+
+    fun getAirlineById(id: Int): Airline? = airlines.find { it.airlineId == id }
 }
 
 
