@@ -32,7 +32,7 @@ class AircraftController(serializerType: Serializer) {
         airframes = serializer.read() as MutableList<Aircraft>
 
         lastId =
-            if(airframes.isEmpty()) 0 else (airframes.maxOf { it.aircraftId } + 1)
+            if (airframes.isEmpty()) 0 else (airframes.maxOf { it.aircraftId } + 1)
     }
 
     /**
@@ -144,7 +144,8 @@ class AircraftController(serializerType: Serializer) {
         } else {
             var listOfAircraft = ""
             for (i in airframes.indices) {
-                listOfAircraft += """                                  
+                listOfAircraft +=
+                    """                                  
                     >  -------------------------------------
                     >  Aircraft ID: ${airframes[i].aircraftId}
                     >  Aircraft IATA Code: ${airframes[i].aircraftIataCode}
@@ -181,7 +182,7 @@ class AircraftController(serializerType: Serializer) {
         return if (aircraftFound.isEmpty()) {
             "No aircraft found with IATA Code: ${iataCode}\n"
         } else {
-            aircraftFound.joinToString (separator = "") { aircraft ->
+            aircraftFound.joinToString(separator = "") { aircraft ->
                 """
                     >
                     > -------------------------------------
@@ -208,8 +209,9 @@ class AircraftController(serializerType: Serializer) {
     fun numberOfAircraftNotInProduction(): Int {
         var numberOfAircraftNotInProduction = 0
         for (aircraft in airframes) {
-            if (!aircraft.inProduction)
+            if (!aircraft.inProduction) {
                 numberOfAircraftNotInProduction++
+            }
         }
         return numberOfAircraftNotInProduction
     }
@@ -251,11 +253,14 @@ class AircraftController(serializerType: Serializer) {
      * @param maxCapacity The maximum seat capacity.
      * @return A formatted string of matching aircraft or a message if none found.
      */
-    fun listAircraftByCapacityRange(minCapacity: Int, maxCapacity: Int): String {
+    fun listAircraftByCapacityRange(
+        minCapacity: Int,
+        maxCapacity: Int,
+    ): String {
         val aircraftFound = airframes.filter { it.capacity in minCapacity..maxCapacity }
 
         return if (aircraftFound.isEmpty()) {
-            "No aircraft with a capacity within the range specified: ${minCapacity} - ${maxCapacity}"
+            "No aircraft with a capacity within the range specified: $minCapacity - $maxCapacity"
         } else {
             aircraftFound.joinToString(separator = "") { aircraft ->
                 """

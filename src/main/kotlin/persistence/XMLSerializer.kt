@@ -2,16 +2,12 @@ package persistence
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
-import java.io.File
 import models.Aircraft
 import models.Airline
 import models.AirlineAircraft
+import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
-
-
-
-
 
 /**
  * Handles serialization and deserialization of objects to and from XML format using XStream.
@@ -19,7 +15,6 @@ import java.io.FileWriter
  * @property file The file where the XML data will be stored or read from.
  */
 class XMLSerializer(private val file: File) : Serializer {
-
     /**
      * Reads and deserializes data from the XML file.
      *

@@ -5,7 +5,6 @@ package persistence
  * Implementations of this interface handle reading and writing data to a specific format (e.g., XML, JSON).
  */
 interface Serializer {
-
     /**
      * Writes an object to the underlying storage in the chosen format.
      *

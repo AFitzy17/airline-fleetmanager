@@ -31,7 +31,7 @@ class AirlineController(serializerType: Serializer) {
         airlines = serializer.read() as MutableList<Airline>
 
         lastId =
-            if(airlines.isEmpty()) 0 else (airlines.maxOf { it.airlineId } + 1)
+            if (airlines.isEmpty()) 0 else (airlines.maxOf { it.airlineId } + 1)
     }
 
     /**
@@ -141,7 +141,8 @@ class AirlineController(serializerType: Serializer) {
         } else {
             var listOfAirlines = ""
             for (i in airlines.indices) {
-                listOfAirlines += """
+                listOfAirlines +=
+                    """
                     > -------------------------------------
                     > Airline ID: ${airlines[i].airlineId}
                     > Airline IATA Code: ${airlines[i].iataCode}
@@ -258,5 +259,3 @@ class AirlineController(serializerType: Serializer) {
      */
     fun getAirlineById(id: Int): Airline? = airlines.find { it.airlineId == id }
 }
-
-

@@ -1,11 +1,16 @@
 package controllers
 
 import models.Airline
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import persistence.XMLSerializer
 import java.io.File
-
 
 class AirlineControllerTest {
     private var aerLingus: Airline? = null
@@ -31,8 +36,6 @@ class AirlineControllerTest {
         populatedAirlines!!.addAirline(emirates!!)
         populatedAirlines!!.addAirline(qatar!!)
         populatedAirlines!!.addAirline(delta!!)
-
-
     }
 
     @AfterEach
@@ -45,7 +48,6 @@ class AirlineControllerTest {
         populatedAirlines = null
         emptyAirlines = null
     }
-
 
     @Nested
     inner class AddAirlineTests {
@@ -116,11 +118,9 @@ class AirlineControllerTest {
 
         @Test
         fun `updateAirline returns false for invalid index`() {
-
             assertFalse(populatedAirlines!!.updateAirline(99, aerLingus))
         }
     }
-
 
     @Nested
     inner class DeleteAirlineTests {
@@ -139,7 +139,6 @@ class AirlineControllerTest {
 
     @Nested
     inner class PersistenceTests {
-
         @Test
         fun `saving and loading an empty collection in XML doesn't crash app`() {
             val storingAirlines = AirlineController(XMLSerializer(File("airlines.xml")))

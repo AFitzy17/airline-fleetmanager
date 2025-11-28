@@ -13,7 +13,6 @@ class AirlineAircraftController(serializerType: Serializer) {
     private var airlineAircraft = mutableListOf<AirlineAircraft>()
     private var serializer: Serializer = serializerType
 
-
     /**
      * Loads airline-aircraft data from the serializer into memory.
      *
@@ -76,7 +75,7 @@ class AirlineAircraftController(serializerType: Serializer) {
         yearBought: Int,
         hoursFlown: Int,
         revenuePerYear: Double,
-        isRetired: Boolean
+        isRetired: Boolean,
     ): Boolean {
         val aircraft = airlineAircraft.find { it.airlineId == airlineId && it.aircraftId == aircraftId }
         return if (aircraft != null) {
@@ -98,7 +97,10 @@ class AirlineAircraftController(serializerType: Serializer) {
      * @param aircraftId The ID of the aircraft.
      * @return The removed AirlineAircraft object if successful, null otherwise.
      */
-    fun deleteAircraftInAirline(airlineId: Int, aircraftId: Int): AirlineAircraft? {
+    fun deleteAircraftInAirline(
+        airlineId: Int,
+        aircraftId: Int,
+    ): AirlineAircraft? {
         val index = airlineAircraft.indexOfFirst { it.airlineId == airlineId && it.aircraftId == aircraftId }
         return if (index != -1) {
             airlineAircraft.removeAt(index)
@@ -162,7 +164,5 @@ class AirlineAircraftController(serializerType: Serializer) {
      * @param airlineId The ID of the airline.
      * @return A list of AirlineAircraft objects belonging to the airline.
      */
-    fun getFleetForAirline(airlineId: Int): List<AirlineAircraft> =
-        airlineAircraft.filter { it.airlineId == airlineId }
-
+    fun getFleetForAirline(airlineId: Int): List<AirlineAircraft> = airlineAircraft.filter { it.airlineId == airlineId }
 }
