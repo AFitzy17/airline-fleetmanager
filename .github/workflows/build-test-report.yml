@@ -88,5 +88,10 @@ jobs:
           name: KDoc Documentation Site
           path: build/dokka/html
 
+  github-docs-to-wiki:
+    runs-on: ubuntu-latest
+    needs: documentation
+    steps:
+
       - name: github-docs-to-wiki
         uses: cmbrose/github-docs-to-wiki@v0.20
