@@ -83,9 +83,6 @@ jobs:
       # Runs the Gradle dokkaHtml task
       - name: Dokka with Gradle
         run: ./gradlew dokkaHtml
-
-      - name: github-docs-to-wiki
-        uses: cmbrose/github-docs-to-wiki@v0.20
       
       # Builds a zip file with the KDoc generated website in it 
       - name: Archive KDoc Documentation
