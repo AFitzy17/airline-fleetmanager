@@ -2,6 +2,7 @@ package controllers
 
 import models.Airline
 import persistence.Serializer
+import java.time.Year
 
 class AirlineController(serializerType: Serializer) {
     private var airlines = mutableListOf<Airline>()
@@ -102,6 +103,52 @@ class AirlineController(serializerType: Serializer) {
 
         return if (airlineFound.isEmpty()) {
             "No airline found with IATA Code: ${iataCode}\n"
+        } else {
+            airlineFound.joinToString(separator = "") { airline ->
+                """
+                    > 
+                    > -------------------------------------
+                    > Airline ID: ${airline.airlineId}
+                    > Airline IATA Code: ${airline.iataCode}
+                    > Airline Name: ${airline.airlineName}
+                    > Country of Origin: ${airline.countryOfOrigin}
+                    > Year Founded: ${airline.yearFounded}
+                    > Is Airline Active? ${airline.isActive}
+                    > -------------------------------------
+                    > 
+                """.trimMargin(">")
+            }
+        }
+    }
+
+    fun listActiveAirlines(): String {
+        val airlineFound = airlines.filter { it.isActive }
+
+        return if (airlineFound.isEmpty()) {
+            "There are currently no active airlines.\n"
+        } else {
+            airlineFound.joinToString(separator = "") { airline ->
+                """
+                    > 
+                    > -------------------------------------
+                    > Airline ID: ${airline.airlineId}
+                    > Airline IATA Code: ${airline.iataCode}
+                    > Airline Name: ${airline.airlineName}
+                    > Country of Origin: ${airline.countryOfOrigin}
+                    > Year Founded: ${airline.yearFounded}
+                    > Is Airline Active? ${airline.isActive}
+                    > -------------------------------------
+                    >  
+                """.trimMargin(">")
+            }
+        }
+    }
+
+    fun listAirlinesFoundedBefore(year: Int): String {
+        val airlineFound = airlines.filter { it.yearFounded < year }
+
+        return if (airlineFound.isEmpty()) {
+            "No airlines founded before ${year}\n"
         } else {
             airlineFound.joinToString(separator = "") { airline ->
                 """

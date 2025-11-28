@@ -231,6 +231,9 @@ fun airlineListMenu() {
             > --------------------------------------------
             > |     1. List All Airlines                 |
             > |     2. Find Airline by IATA Code         |
+            > |     3. List Active Airlines              |
+            > |     4. List Airlines Founded             |
+            > |        Before a Chosen Year              |
             > --------------------------------------------
             > |     9. Airline Management                |
             > --------------------------------------------
@@ -245,6 +248,12 @@ fun airlineListMenu() {
             }
             2 -> {
                 findAirlineByIata()
+            }
+            3 -> {
+                listActiveAirlines()
+            }
+            4 -> {
+                listAirlinesFoundedBefore()
             }
             9 -> {
                 airlineMenu()
@@ -405,9 +414,26 @@ fun listAircraftWithinSeatCapacity() {
     }
 }
 
+fun listAirlinesFoundedBefore() {
+    val year = readNextInt("Please enter the year to search before: ")
+    if (airlineController.numberOfAirlines() > 0) {
+        println("Airlines founded before ${year}: \n\n${airlineController.listAirlinesFoundedBefore(year)}")
+    } else {
+        println("There are no airlines stored.")
+    }
+}
+
 fun listAllAirlines() {
     if (airlineController.numberOfAirlines() > 0) {
         println("Airlines: \n${airlineController.listAllAirlines()}")
+    } else {
+        println("There are currently no airlines stored.")
+    }
+}
+
+fun listActiveAirlines() {
+    if (airlineController.numberOfAirlines() >0) {
+        println("Active Airlines: \n\n${airlineController.listActiveAirlines()}")
     } else {
         println("There are currently no airlines stored.")
     }
