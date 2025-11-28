@@ -40,6 +40,6 @@ This is a Kotlin console application developed as part of the Software Developme
 - JaCoCo Coverage Report: build/reports/jacoco/test/html/index.html
 - Ktlint Report: build/reports/ktlint/
 
-##License##
+## License ##
 
 This project is for educational purposes only.
