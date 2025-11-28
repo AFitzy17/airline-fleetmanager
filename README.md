@@ -1,13 +1,45 @@
 # Airline Fleet Manager App #
 
 ## Background ##
-This is a Kotlin console app created for the purposes of an assignment in my Software Development Tools module.
-The Airline Fleet Manager app is a menu driven console app, features will be added over time.
+This is a Kotlin console application developed as part of the Software Development Tools module assignment. The app is menu-driven and designed to manage airlines and their fleets of aircraft. It demonstrates best practices in Kotlin development, including documentation, testing, and build automation.
 
 ## Features ##
-- Add, update and delete an aircraft to an Aircraft collection.
-- Add, update and delete an Airline to an Airline collection.
-- Add, update and delete an aircraft in an Airline's fleet.
-- Can list aircraft, airlines and aircraft belonging to a fleet.
-- Conditional listing such as listing aircraft no longer in production, listing active airlines, and listing aircraft in a fleet with the most revenue.
-- Save and Load your aircraft, airlines and airline fleets.
+- **Aircraft Management**
+  - Add, update, and delete aircraft in the global Aircraft collection.
+  - Conditional listing (e.g., aircraft no longer in production).
+- **Airline Management**
+  - Add, update, and delete airlines in the Airline collection.
+  - List active airlines.
+- **Fleet Management**
+  - Add, update, and delete aircraft in an airline’s fleet.
+  - Conditional listing (e.g., aircraft in a fleet with the highest revenue).
+- **Persistence**
+  - Save and load aircraft, airlines, and fleets.
+- **Advanced Listings**
+  - List aircraft by production status.
+  - List fleets by revenue performance.
+
+## Development Tools & Enhancements ##
+- **Documentation**
+  - KDoc comments throughout the codebase.
+  - Dokka-generated HTML documentation.
+- **Testing**
+  - JUnit 5 tests for all core features.
+  - JaCoCo integrated for code coverage reporting.
+- **Code Quality**
+  - Ktlint applied for consistent Kotlin style.
+- **Build**
+  - Gradle build automation.
+  - Fat JAR packaging for easy distribution.
+
+## How to Run ##
+- Clone the repository in IntellJ
+- Build with Grade and run the airfleet-manager-1.0.jar
+
+## Reports ##
+- JaCoCo Coverage Report: build/reports/jacoco/test/html/index.html
+- Ktlint Report: build/reports/ktlint/
+
+##License##
+
+This project is for educational purposes only.
