@@ -12,8 +12,8 @@ class AirlineAircraftControllerTest {
     private var airlineAircraft2: AirlineAircraft? = null
     private var airlineAircraft3: AirlineAircraft? = null
 
-    private var populatedFleet: AirlineAircraftController? = AirlineAircraftController(XMLSerializer(File("airlineAircraft.xml")))
-    private var emptyFleet: AirlineAircraftController? = AirlineAircraftController(XMLSerializer(File("empty-airlineAircraft.xml")))
+    private var populatedFleet: AirlineAircraftController? = AirlineAircraftController(XMLSerializer(File("fleet.xml")))
+    private var emptyFleet: AirlineAircraftController? = AirlineAircraftController(XMLSerializer(File("empty-fleet.xml")))
 
     @BeforeEach
     fun setup() {
