@@ -142,6 +142,9 @@ fun aircraftListMenu() {
             > --------------------------------------------
             > |     1. List All Aircraft                 |
             > |     2. Find Aircraft by IATA Code        |
+            > |     3. Find Retired Aircraft             |
+            > |     4. List Aircraft within              |
+            > |        capacity range                    |   
             > --------------------------------------------
             > |     9. Aircraft Management               |
             > --------------------------------------------
@@ -156,6 +159,12 @@ fun aircraftListMenu() {
             }
             2 -> {
                 findAircraftByIata()
+            }
+            3 -> {
+                listRetiredAircraft()
+            }
+            4 -> {
+                listAircraftWithinSeatCapacity()
             }
             9 -> {
                 aircraftMenu()
@@ -380,6 +389,20 @@ fun addAircraftToFleet() {
 
 fun listAllAircraft() {
     println("Aircraft: \n\n${aircraftController.listAllAircraft()}")
+}
+
+fun listRetiredAircraft() {
+    println("Retired Aircraft: \n\n${aircraftController.listRetiredAircraft()}")
+}
+
+fun listAircraftWithinSeatCapacity() {
+    val minCapacity = readNextInt("Please enter the minimum seat capacity: ")
+    val maxCapacity = readNextInt("Please enter the maxmimum seat capacity: ")
+    if (aircraftController.numberOfAircraft() > 0) {
+        println("Aircraft with seat capacity between $minCapacity and $maxCapacity: \n\n${aircraftController.listAircraftByCapacityRange(minCapacity, maxCapacity)}")
+    } else {
+        println("There are no aircraft stored.")
+    }
 }
 
 fun listAllAirlines() {

@@ -2,6 +2,7 @@ package controllers
 
 import models.Aircraft
 import persistence.Serializer
+import javax.print.attribute.standard.PrinterMoreInfoManufacturer
 import kotlin.jvm.Throws
 
 class AircraftController(serializerType: Serializer) {
@@ -128,4 +129,62 @@ class AircraftController(serializerType: Serializer) {
         }
     }
 
+    fun numberOfAircraftNotInProduction(): Int {
+        var numberOfAircraftNotInProduction = 0
+        for (aircraft in airframes) {
+            if (!aircraft.inProduction)
+                numberOfAircraftNotInProduction++
+        }
+        return numberOfAircraftNotInProduction
+    }
+
+    fun listRetiredAircraft(): String {
+        val retiredAircraft = airframes.filter { !it.inProduction }
+
+        return if (retiredAircraft.isEmpty()) {
+            "There are no aircraft that have stopped production.\n"
+        } else {
+            retiredAircraft.joinToString(separator = "") { aircraft ->
+                """
+                    >
+                    > -------------------------------------
+                    > Aircraft ID: ${aircraft.aircraftId}
+                    > Aircraft IATA Code: ${aircraft.aircraftIataCode}
+                    > Manufacturer: ${aircraft.manufacturer}
+                    > Model: ${aircraft.model}
+                    > Seat Capacity: ${aircraft.capacity}
+                    > Range: ${aircraft.rangeNm}
+                    > Year Introduced: ${aircraft.yearIntroduced}
+                    > In Production? ${aircraft.inProduction}
+                    > -------------------------------------
+                    >  
+                """.trimMargin(">")
+            }
+        }
+    }
+
+    fun listAircraftByCapacityRange(minCapacity: Int, maxCapacity: Int): String {
+        val aircraftFound = airframes.filter { it.capacity in minCapacity..maxCapacity }
+
+        return if (aircraftFound.isEmpty()) {
+            "No aircraft with a capacity within the range specified: ${minCapacity} - ${maxCapacity}"
+        } else {
+            aircraftFound.joinToString(separator = "") { aircraft ->
+                """
+                    >
+                    > -------------------------------------
+                    > Aircraft ID: ${aircraft.aircraftId}
+                    > Aircraft IATA Code: ${aircraft.aircraftIataCode}
+                    > Manufacturer: ${aircraft.manufacturer}
+                    > Model: ${aircraft.model}
+                    > Seat Capacity: ${aircraft.capacity}
+                    > Range: ${aircraft.rangeNm}
+                    > Year Introduced: ${aircraft.yearIntroduced}
+                    > In Production? ${aircraft.inProduction}
+                    > -------------------------------------
+                    >  
+                """.trimMargin(">")
+            }
+        }
+    }
 }
