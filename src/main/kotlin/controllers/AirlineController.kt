@@ -2,7 +2,6 @@ package controllers
 
 import models.Airline
 import persistence.Serializer
-import java.time.Year
 
 class AirlineController(serializerType: Serializer) {
     private var airlines = mutableListOf<Airline>()
@@ -166,6 +165,8 @@ class AirlineController(serializerType: Serializer) {
             }
         }
     }
+
+    fun getAirlineById(id: Int): Airline? = airlines.find { it.airlineId == id }
 }
 
 

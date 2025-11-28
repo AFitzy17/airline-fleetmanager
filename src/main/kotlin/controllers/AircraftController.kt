@@ -2,7 +2,6 @@ package controllers
 
 import models.Aircraft
 import persistence.Serializer
-import javax.print.attribute.standard.PrinterMoreInfoManufacturer
 import kotlin.jvm.Throws
 
 class AircraftController(serializerType: Serializer) {
@@ -187,4 +186,6 @@ class AircraftController(serializerType: Serializer) {
             }
         }
     }
+
+    fun findAircraftById(id: Int): Aircraft? = airframes.find { it.aircraftId == id }
 }

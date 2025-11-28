@@ -91,4 +91,9 @@ class AirlineAircraftController(serializerType: Serializer) {
     fun findAircraftByRegistration(registration: String): AirlineAircraft? {
         return airlineAircraft.find { it.registration == registration }
     }
+
+
+    fun getFleetForAirline(airlineId: Int): List<AirlineAircraft> =
+        airlineAircraft.filter { it.airlineId == airlineId }
+
 }

@@ -320,6 +320,7 @@ fun fleetListMenu() {
             > --------------------------------------------
             > |     1. Find All Aircraft in Fleet        |
             > |     2. Find Aircraft By Registration     |
+            > |     3. List Aircraft with Top Revenue    |
             > --------------------------------------------
             > |     9. Fleet Management                  |
             > --------------------------------------------
@@ -334,6 +335,9 @@ fun fleetListMenu() {
             }
             2 -> {
                 findAircraftByRegistration()
+            }
+            3 -> {
+                listTopRevenueFleet()
             }
             9 -> {
                 fleetMenu()
@@ -414,15 +418,6 @@ fun listAircraftWithinSeatCapacity() {
     }
 }
 
-fun listAirlinesFoundedBefore() {
-    val year = readNextInt("Please enter the year to search before: ")
-    if (airlineController.numberOfAirlines() > 0) {
-        println("Airlines founded before ${year}: \n\n${airlineController.listAirlinesFoundedBefore(year)}")
-    } else {
-        println("There are no airlines stored.")
-    }
-}
-
 fun listAllAirlines() {
     if (airlineController.numberOfAirlines() > 0) {
         println("Airlines: \n${airlineController.listAllAirlines()}")
@@ -439,6 +434,15 @@ fun listActiveAirlines() {
     }
 }
 
+fun listAirlinesFoundedBefore() {
+    val year = readNextInt("Please enter the year to search before: ")
+    if (airlineController.numberOfAirlines() > 0) {
+        println("Airlines founded before ${year}: \n\n${airlineController.listAirlinesFoundedBefore(year)}")
+    } else {
+        println("There are no airlines stored.")
+    }
+}
+
 fun listAircraftInFleet(airlineId: Int) {
     println("Airline Fleet: \n${airlineAircraftController.listAircraftInAirline(airlineId)}")
 }
@@ -450,6 +454,50 @@ fun listAllAircraftInFleet() {
         listAircraftInFleet(airlineId)
     } else {
         println("There are no aircraft in the fleet.")
+    }
+}
+
+fun listTopRevenueFleet() {
+    listAllAirlines()
+    val airlineId = readNextInt("Enter the Airline ID: ")
+    val asOfYear = readNextInt("Enter the current year: ")
+
+    val airline = airlineController.getAirlineById(airlineId)
+    val fleet = airlineAircraftController.getFleetForAirline(airlineId)
+
+    if (fleet.isEmpty()) {
+        println("No aircraft found for Airline ID: ${airlineId}")
+    } else {
+        val sortedFleet = fleet.sortedByDescending { (asOfYear - it.yearBought + 1) * it.revenuePerYear }
+
+        println("Lifetime-Revenue Aircraft for ${airline?.airlineName} (as of ${asOfYear}):\n")
+
+        for (fleet in sortedFleet) {
+            val years = (asOfYear - fleet.yearBought + 1)
+            val lifetimeRevenue = years * fleet.revenuePerYear
+            val aircraft = aircraftController.findAircraftById(fleet.aircraftId)
+
+            println("""
+                >
+                >------------------------------------
+                > Airline ID: ${airline?.airlineId}
+                > Airline: ${airline?.airlineName}
+                > Registration: ${fleet.registration}
+                > Year Bought: ${fleet.yearBought}
+                > Years in Fleet: ${years}
+                > Revenue per Year (millions): ${fleet.revenuePerYear}
+                > Lifetime Revenue (millions): ${lifetimeRevenue}
+                > Retired? ${fleet.isRetired}
+                > 
+                > Aircraft Details:
+                > Manufacturer: ${aircraft?.manufacturer}
+                > Model: ${aircraft?.model}
+                > Capacity: ${aircraft?.capacity}
+                > Range: ${aircraft?.rangeNm} NM
+                > ------------------------------------
+                > 
+            """.trimMargin(">"))
+        }
     }
 }
 
