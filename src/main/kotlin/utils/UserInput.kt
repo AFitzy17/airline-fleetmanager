@@ -1,7 +1,19 @@
 package utils
 
+/**
+ * Reads an integer from the console or returns -1 if input is null or invalid.
+ *
+ * @return The integer value entered by the user, or -1 if invalid.
+ */
 fun readIntNotNull() = readlnOrNull()?.toIntOrNull() ?: -1
 
+/**
+ * Prompts the user and reads an integer from the console.
+ * Keeps asking until a valid integer is entered.
+ *
+ * @param prompt The message displayed to the user.
+ * @return The integer value entered by the user.
+ */
 fun readNextInt(prompt: String?): Int {
     do {
         try {
@@ -13,11 +25,24 @@ fun readNextInt(prompt: String?): Int {
     } while (true)
 }
 
+/**
+ * Prompts the user and reads a line of text from the console.
+ *
+ * @param prompt The message displayed to the user.
+ * @return The string entered by the user.
+ */
 fun readNextLine(prompt: String?): String {
     print(prompt)
     return readln()
 }
 
+/**
+ * Prompts the user and reads a single character from the console.
+ * Keeps asking until a valid character is entered.
+ *
+ * @param prompt The message displayed to the user.
+ * @return The character entered by the user.
+ */
 fun readNextChar(prompt: String?): Char {
     do {
         try {
@@ -29,6 +54,13 @@ fun readNextChar(prompt: String?): Char {
     } while (true)
 }
 
+/**
+ * Prompts the user and reads a float value from the console.
+ * Keeps asking until a valid float is entered.
+ *
+ * @param prompt The message displayed to the user.
+ * @return The float value entered by the user.
+ */
 fun readNextDouble(prompt: String?): Double {
     do {
         try {
@@ -40,6 +72,13 @@ fun readNextDouble(prompt: String?): Double {
     } while (true)
 }
 
+/**
+ * Prompts the user and reads a float value from the console.
+ * Keeps asking until a valid float is entered.
+ *
+ * @param prompt The message displayed to the user.
+ * @return The float value entered by the user.
+ */
 fun readNextFloat(prompt: String?): Float {
     do {
         try {
@@ -51,6 +90,13 @@ fun readNextFloat(prompt: String?): Float {
     } while (true)
 }
 
+/**
+ * Prompts the user and reads a boolean value from the console.
+ * Accepts true/false, yes/no, t/f, y/n, 1/0.
+ *
+ * @param prompt The message displayed to the user.
+ * @return True or false based on user input.
+ */
 fun readNextBoolean(prompt: String?): Boolean {
     do {
         print(prompt)

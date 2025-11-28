@@ -2,8 +2,15 @@
 package controllers
 
 import models.AirlineAircraft
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import persistence.XMLSerializer
 import java.io.File
 
@@ -12,8 +19,8 @@ class AirlineAircraftControllerTest {
     private var airlineAircraft2: AirlineAircraft? = null
     private var airlineAircraft3: AirlineAircraft? = null
 
-    private var populatedFleet: AirlineAircraftController? = AirlineAircraftController(XMLSerializer(File("airlineAircraft.xml")))
-    private var emptyFleet: AirlineAircraftController? = AirlineAircraftController(XMLSerializer(File("empty-airlineAircraft.xml")))
+    private var populatedFleet: AirlineAircraftController? = AirlineAircraftController(XMLSerializer(File("fleet.xml")))
+    private var emptyFleet: AirlineAircraftController? = AirlineAircraftController(XMLSerializer(File("empty-fleet.xml")))
 
     @BeforeEach
     fun setup() {
@@ -28,7 +35,7 @@ class AirlineAircraftControllerTest {
             airlineAircraft1!!.yearBought,
             airlineAircraft1!!.hoursFlown,
             airlineAircraft1!!.revenuePerYear,
-            airlineAircraft1!!.isRetired
+            airlineAircraft1!!.isRetired,
         )
         populatedFleet!!.addAircraftToAirline(
             airlineAircraft2!!.airlineId,
@@ -37,7 +44,7 @@ class AirlineAircraftControllerTest {
             airlineAircraft2!!.yearBought,
             airlineAircraft2!!.hoursFlown,
             airlineAircraft2!!.revenuePerYear,
-            airlineAircraft2!!.isRetired
+            airlineAircraft2!!.isRetired,
         )
         populatedFleet!!.addAircraftToAirline(
             airlineAircraft3!!.airlineId,
@@ -46,7 +53,7 @@ class AirlineAircraftControllerTest {
             airlineAircraft3!!.yearBought,
             airlineAircraft3!!.hoursFlown,
             airlineAircraft3!!.revenuePerYear,
-            airlineAircraft3!!.isRetired
+            airlineAircraft3!!.isRetired,
         )
     }
 
